@@ -1,0 +1,47 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+    <script type="text/javascript">
+
+        function javaCallJs(){
+        	 document.getElementById("content").innerHTML ="<br\>JAVA调用了JS的无参函数";
+        }
+
+        function scanCallwithParam(arg,arg1){
+        	 document.getElementById("content").innerHTML =
+        	 ("<br\>"+arg+"|"+arg1);
+        }
+
+        function cfm() {
+            confirm("")
+        }
+
+        function pmt() {
+           prompt("","");
+        }
+
+        function onAlert()
+        {
+            alert("这是网页中的alert方法，如果重写了mWebView的onAlert方法，该方法不会执行");
+        }
+
+    </script>
+</head>
+<body>
+HTML 内容显示 <br/>
+<h1>
+    <div id="content">content</div>
+</h1>
+<br/>
+<input type="button" value="调用native方法"
+       onclick="window.android.scanQrcode()"/>
+<br/>
+<br/>
+<input type="button" value="调用native方法并传参"
+       onclick="window.android.scanQrcode('native方法被js调用，并传参')"/>
+
+<p><input type="button" onclick="cfm()" value="Confirm"/></p>
+<p><input type="button" onclick="pmt()" value="Prompt"/></p>
+<p><input type="button" onclick="onAlert()" value="Alert"/> <br />
+</body>
+</html>

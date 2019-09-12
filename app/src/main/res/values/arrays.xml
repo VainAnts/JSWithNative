@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="permission_en">
+        <item>android.permission.CAMERA</item>
+        <item>android.permission.READ_PHONE_STATE</item>
+        <item>android.permission.READ_CONTACTS</item>
+        <item>android.permission.WRITE_EXTERNAL_STORAGE</item>
+        <item>android.permission.MOUNT_UNMOUNT_FILESYSTEMS</item>
+        <item>android.permission.CALL_PHONE</item>
+    </string-array>
+
+    <string-array name="permission_cn">
+        <item>使用相机权限</item>
+        <item>读取手机状态权限</item>
+        <item>读取联系人权限</item>
+        <item>外部存储权限</item>
+        <item>创建与删除文件权限</item>
+        <item>拨打电话权限</item>
+    </string-array>
+</resources>

@@ -1,0 +1,2 @@
+# JSWithNative
+js调用android摄像头扫描二维码，android将二维码值传给js。使用kotlin实现

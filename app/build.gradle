@@ -4,15 +4,15 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.neuhuiju.android.scan"
+        applicationId "com.neusoft.android.scan"
         minSdkVersion 14
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-//        ndk {
-//            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
-//        }
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
+        }
     }
     buildTypes {
         release {

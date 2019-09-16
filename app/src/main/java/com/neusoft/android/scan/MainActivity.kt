@@ -1,7 +1,9 @@
-package com.neuhuiju.android.scan
+package com.neusoft.android.scan
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Gravity
 import android.view.KeyEvent
@@ -11,9 +13,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.neuhuiju.android.scan.Constants.REQUESTCODE
-import com.neuhuiju.android.scan.Constants.REQUEST_CODE_QRCODE_PERMISSIONS
-import com.neuhuiju.android.scan.Constants.SCAN_ACTIVITY_RESULT_CODE
+import com.neusoft.android.scan.Constants.REQUESTCODE
+import com.neusoft.android.scan.Constants.REQUEST_CODE_QRCODE_PERMISSIONS
+import com.neusoft.android.scan.Constants.SCAN_ACTIVITY_RESULT_CODE
 import com.tencent.smtt.export.external.interfaces.*
 import com.tencent.smtt.sdk.WebChromeClient
 import com.tencent.smtt.sdk.WebView
@@ -29,19 +31,32 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     var webview: com.tencent.smtt.sdk.WebView? = null
     private var mExitTime: Long = 0
     var primary_key: String = ""
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_webview)
         webview = findViewById(R.id.webview)
         toolbar.title = "东本"
+        //toolbar说明文字居中的正确方式
         val textView = toolbar.getChildAt(0) as TextView
         textView.layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT
         textView.gravity = Gravity.CENTER_HORIZONTAL or Gravity.CENTER_HORIZONTAL
+        textView.setOnTouchListener(OnDoubleClickListener(OnDoubleClickListener
+                .DoubleClickCallback {
+                    if (debug_ly.visibility == View.GONE) {
+                        debug_ly.visibility = View.VISIBLE
+                    } else if (debug_ly.visibility == View.VISIBLE) {
+                        debug_ly.visibility = View.GONE
+                    }
+                }))
         webview?.apply {
             // 加载html
-//            loadUrl("http://36.153.48.162:8091/neusoftEEP_web/login")
-            loadUrl("file:///android_asset/web.html")
+//            loadUrl("file:///android_asset/web.html")
+            btn.setOnClickListener {
+                loadUrl("http://"+input_url.text.toString())
+            }
 //            loadUrl("http://192.168.137.172:3008/neusoft_web/ImgTest")
+            loadUrl("http://36.153.48.162:8091/neusoftEEP_web/login")
             settings.javaScriptEnabled = true
             addJavascriptInterface(this@MainActivity, "android")
             //设置ChromeClient
@@ -96,7 +111,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     @JavascriptInterface
     fun scanQrcode(text: String) {
         //接收前端JS的传值，扫描成功之后将值再传给前端
-        initPermission();
+        initPermission()
         primary_key = text
     }
 
@@ -137,7 +152,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         override fun onReceivedSslError(p0: WebView?, handler: SslErrorHandler?, p2: SslError?) {
             // 不要使用super，否则有些手机访问不了，因为包含了一条 handler.cancel()
             // super.onReceivedSslError(view, handler, error);
-            // 接受所有网站的证书，忽略SSL错误，执行访问网页
+            // ***接受所有网站的证书，忽略SSL错误，执行访问网页***
             handler?.proceed()
         }
     }
@@ -206,7 +221,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode== SCAN_ACTIVITY_RESULT_CODE){
+        if (resultCode == SCAN_ACTIVITY_RESULT_CODE) {
             when (requestCode) {
                 REQUESTCODE -> {
                     val result = data!!.getStringExtra("scanResult")
@@ -222,8 +237,9 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (webview?.canGoBack()!!) {
+            return if (webview?.canGoBack()!!) {
                 webview?.goBack()
+                true
             } else {
                 if (System.currentTimeMillis() - mExitTime > 2000) {
                     Toast.makeText(this@MainActivity, "再按一次退出程序", Toast.LENGTH_SHORT).show()
@@ -235,5 +251,9 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
             }
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
     }
 }

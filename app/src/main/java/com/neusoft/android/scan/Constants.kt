@@ -1,4 +1,4 @@
-package com.neuhuiju.android.scan
+package com.neusoft.android.scan
 
 import android.Manifest
 

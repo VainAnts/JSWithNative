@@ -4,7 +4,7 @@
     <!-- 总进度的颜色 -->
     <item android:id="@android:id/background">
         <shape>
-            <solid android:color="#FF4081" />
+            <solid android:color="@color/color_cdced0" />
         </shape>
     </item>
 
@@ -21,7 +21,7 @@
     <item android:id="@android:id/progress">
         <clip>
             <shape>
-                <solid android:color="#CCf57257" />
+                <solid android:color="@color/color_41b31c" />
             </shape>
         </clip>
     </item>

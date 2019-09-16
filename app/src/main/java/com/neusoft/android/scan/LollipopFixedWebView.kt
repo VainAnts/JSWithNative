@@ -1,4 +1,4 @@
-package com.neuhuiju.android.scan
+package com.neusoft.android.scan
 
 import android.content.Context
 import android.content.res.Configuration
@@ -11,6 +11,5 @@ import com.tencent.smtt.sdk.WebView
 class LollipopFixedWebView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0,
-        defStyleRes: Int = 0
+        defStyleAttr: Int = 0
 ) : WebView(context.createConfigurationContext(Configuration()), attrs, defStyleAttr)
